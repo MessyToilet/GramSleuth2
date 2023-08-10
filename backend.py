@@ -33,17 +33,32 @@ class bot():
                 try:
                     wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="loginForm"]/div/div[3]/button/div'))).click()    #send creds
                     print("Login successful.")
-                    if self.driver.current_url == "https://www.instagram.com/accounts/onetap/?next=%2F" and str(input("Save login? (y/n): ")).upper() == "Y":
+                    try:
+                        if self.driver.current_url == "https://www.instagram.com/accounts/onetap/?next=%2F":
+                            if str(input("Save login? (y/n): ")).upper() == "Y":
+                                try:
+                                    wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/section/main/div/div/div/section/div/button'))).click()
+                                    pk.dump(self.driver.get_cookies(), open("coockies.pkl", "wb"))
+                                    print(f"Saving cookies...")
+                                except:
+                                    print(f"ERROR: Couldn't Click.")
+                            else:
+                                wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/section/main/div/div/div/div/div'))).click()
                         try:
-                            wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/section/main/div/div/div/section/div/button'))).click()
-                            pk.dump(self.driver.get_cookies(), open("coockies.pkl", "wb"))
-                            print(f"Saving cookies...")
+                            try:
+                                wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Not Now']")))
+                                if str(input("Enable notifications? (y/n): ")).upper() == "Y":
+                                    wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Turn On']"))).click()
+                                else:
+                                    wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Not Now']"))).click()
+                            except:
+                                print("ERROR: Action error (enable notifications)")
                         except:
-                            print(f"ERROR: Couldn't Click.")
-                    else:
-                        self.driver.find_element(By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/section/main/div/div/div/div/div').click()
+                            pass
+                    except:
+                        print("ERROR: Action error (save login).")
                 except:
-                    print(f"ERROR: Couldn't click.")
+                    print(f"ERROR: Couldn't click login.")
             except:
                 print(f"ERROR: Couldn't send password.")
         except:
@@ -53,5 +68,7 @@ class bot():
         try:
             print("Loading followers...")
             self.driver.get(f"https://www.instagram.com/{self.username}/followers/")
+            print("Scrolling...")
+            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);") #problem here
         except:
             print(f"ERROR: Could not find.")

@@ -12,3 +12,4 @@ myBot = bot(username=username, password=password, path="GramSleuth2\\requirments
 myBot.login()
 input("waiting...")
 myBot.get_your_followers()
+input("waiting...")
