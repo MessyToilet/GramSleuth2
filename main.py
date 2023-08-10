@@ -7,7 +7,7 @@ printLogo("red")
 
 username = str(input("Username: "))
 password = str(input("Password: "))
-myBot = bot(username=username, password=password)
+myBot = bot(path="GramSleuth2\\requirments\\chromedriver.exe")
 
-myBot.login()
+myBot.login(username=username, password=password)
 myBot.get_your_followers()
