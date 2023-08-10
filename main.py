@@ -3,11 +3,12 @@ from backend import bot
 import sys
 import pwinput
 
-printLogo("red")
+printLogo("blue")
 
 username = str(input("Username: "))
 password = str(input("Password: "))
-myBot = bot(path="GramSleuth2\\requirments\\chromedriver.exe")
+myBot = bot(username=username, password=password, path="GramSleuth2\\requirments\\chromedriver.exe")
 
-myBot.login(username=username, password=password)
+myBot.login()
+input("waiting...")
 myBot.get_your_followers()
