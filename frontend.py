@@ -1,9 +1,8 @@
-#Comment test
-def printLogo(color = 'white'):
-    import shutil                       
-    from colorama import Fore, Style
-    import os
+import shutil                       
+from colorama import Fore, Style
+import os
 
+def printLogo(color:str = 'white') -> None:
     supportedColors = ["BLACK", 
                        "RED", 
                        "GREEN", 
@@ -41,3 +40,19 @@ def printLogo(color = 'white'):
     centered_lines = [(line.center(terminal_size.columns, ' ') if len(line.strip()) > 0 else ' ' * terminal_size.columns) for line in lines]
     os.system("cls")
     print('\n'.join(centered_lines))
+
+def options() -> str:
+    while True:
+        print(f'{Fore.YELLOW}[{Fore. GREEN}1{Fore.YELLOW}] {Fore.RESET} Go to followers')
+        print(f'{Fore.YELLOW}[{Fore. GREEN}2{Fore.YELLOW}] {Fore.RESET} Quit')
+        
+        try:
+            output = int(input(f'\n# '))
+            if output in [x for x in range(1,2)]:
+                return str(output)
+            else:
+                os.system("cls")
+                printLogo("green")
+        except:
+            os.system("cls")
+            printLogo("green")

@@ -1,4 +1,3 @@
-import requests
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys 
 from selenium.webdriver.common.by import By
@@ -6,21 +5,24 @@ from selenium.webdriver.support.ui import WebDriverWait as wait
 from selenium.webdriver.support import expected_conditions as EC
 import pickle as pk
 
-
 class bot():
-    def __init__(self, username, password, path):
+    def __init__(self, username: str, password: str, path: str) -> None:
         try:
-            self.driver = webdriver.Chrome(path)                    #init driver
+            self.driver = webdriver.Chrome("GramSleuth2\\requirments\\chromedriver.exe")                    #init driver
+            print("Found path!")
             self.username = username                                #declare username
             self.password = password                                #declare password
-            self.driver.get("https://www.instagram.com/")            #get site
-            print("Capturing cookies...")
             try:
-                cookies = pk.load(open("cookies.pkl", "rb"))            #load cookies
-                for cookie in cookies:
-                    self.driver.add_cookie(cookie)
+                self.driver.get("https://www.instagram.com/")           #get site
+                print("Capturing cookies...")
+                try:
+                    cookies = pk.load(open("cookies.pkl", "rb"))            #load cookies
+                    for cookie in cookies:
+                        self.driver.add_cookie(cookie)
+                except:
+                    print("ERROR: Couldn't capture cookies.")
             except:
-                print("ERROR: Couldn't capture cookies.")
+                print(f'ERROR: Could not connect (instagram)')
         except:
             print(f'Error: Could not connect (Selenium).')
 
