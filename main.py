@@ -6,7 +6,7 @@ printLogo("Green")
 
 username = str(input("Username: "))
 password = str(input("Password: "))
-myBot = bot(username=username, password=password, path="GramSleuth2\\requirments\\chromedriver.exe\\")
+myBot = bot(username=username, password=password, path="GramSleuth2\\chromedriver.exe")
 
 myBot.login()
 printLogo("Green")

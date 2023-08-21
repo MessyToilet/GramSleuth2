@@ -4,11 +4,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait as wait
 from selenium.webdriver.support import expected_conditions as EC
 import pickle as pk
+import os
 
 class bot():
     def __init__(self, username: str, password: str, path: str) -> None:
         try:
-            self.driver = webdriver.Chrome("GramSleuth2\\requirments\\chromedriver.exe")                    #init driver
+            self.driver = webdriver.Chrome(os.path.join("GramSleuth2", "requirments", "chromedriver.exe"))                    #init driver
             print("Found path!")
             self.username = username                                #declare username
             self.password = password                                #declare password
