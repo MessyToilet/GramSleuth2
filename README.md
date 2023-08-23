@@ -17,7 +17,7 @@
 1. Chrome Webdriver 
     ---
     - Q: I'm getting "Incompatible release of chrome driver (version ... )".
-    - A: Make sure you have the correct version of chromedriver, ie: same version as google chrome.
+    - A: Make sure you have the correct version of chromedriver, ie: same version as google chrome. Also try upgrading selenium.
         - --
     - Q: Where can get the chromedriver?
     - A: https://sites.google.com/chromium.org/driver/

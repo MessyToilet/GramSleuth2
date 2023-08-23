@@ -2,16 +2,15 @@ from frontend import printLogo, options
 from backend import bot
 import pwinput
 
-printLogo("Green")
+printLogo("red")
 
-username = str(input("Username: "))
-password = str(input("Password: "))
-
-myBot = bot(username=username, password=password, path="GramSleuth2\\chromedriver.exe")
-# while (myBot := bot(username=username, password=password, path="GramSleuth2\\chromedriver.exe")) != True:
-#     pass
-
+myBot = bot()
 myBot.login()
-input()
-printLogo("Green")
-print(options())
+
+printLogo("red")
+while (option := options()) != '3':
+    if option == '1':
+        myBot.get_your_followers()
+    elif option == '2':
+        pass
+myBot.quit()

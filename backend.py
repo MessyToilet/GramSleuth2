@@ -1,18 +1,19 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+
 from selenium.webdriver.common.keys import Keys 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait as wait
 from selenium.webdriver.support import expected_conditions as EC
 import pickle as pk
-import os
+import sys
 
 class bot():
-    def __init__(self, username: str, password: str, path: str) -> bool:
+    def __init__(self) -> None:
         try:
-            self.driver = webdriver.Chrome(os.path.join("GramSleuth2", "chromedriver.exe"))                    #init driver
+            self.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))                    #init driver
             print("Found path!")
-            self.username = username                                #declare username
-            self.password = password                                #declare password
             try:
                 self.driver.get("https://www.instagram.com/")           #get site
                 print("Capturing cookies...")
@@ -20,7 +21,6 @@ class bot():
                     cookies = pk.load(open("cookies.pkl", "rb"))            #load cookies
                     for cookie in cookies:
                         self.driver.add_cookie(cookie)
-                    return True
                 except:
                     print("ERROR: Couldn't capture cookies.")
             except:
@@ -29,15 +29,18 @@ class bot():
             print(f'ERROR: Could not connect (Selenium).')
 
     def login(self) -> bool:
+        self.username = str(input(f"\nUsername: "))                                #declare username
+        self.password = str(input(f"Password: "))                                  #declare password
         try:
             wait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "username"))).send_keys(str(self.username))  
             try:    
                 wait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "password"))).send_keys(str(self.password))                     #send creds
-                print(f"Sending credentials...")
+                print(f"\nSending credentials...")
                 try:
                     wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="loginForm"]/div/div[3]/button/div'))).click()    #send creds
                     print("Login successful.")
                     try:
+                        wait(self.driver, 10).until(EC.url_to_be("https://www.instagram.com/accounts/onetap/?next=%2F"))
                         if self.driver.current_url == "https://www.instagram.com/accounts/onetap/?next=%2F":
                             if str(input("Save login? (y/n): ")).upper() == "Y":
                                 try:
@@ -48,18 +51,16 @@ class bot():
                                     print(f"ERROR: Couldn't Click.")
                             else:
                                 wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/section/main/div/div/div/div/div'))).click()
+
                         try:
-                            try:
-                                wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Not Now']")))
-                                if str(input("Enable notifications? (y/n): ")).upper() == "Y":
-                                    wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Turn On']"))).click()
-                                else:
-                                    wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Not Now']"))).click()
-                                return True
-                            except:
-                                print("ERROR: Action error (enable notifications)")
+                            wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Not Now']")))
+                            if str(input("Enable notifications? (y/n): ")).upper() == "Y":
+                                wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Turn On']"))).click()
+                            else:
+                                wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Not Now']"))).click()
+                            return True
                         except:
-                            pass
+                            print("ERROR: Action error (enable notifications)")
                     except:
                         print("ERROR: Action error (save login).")
                 except:
@@ -77,3 +78,8 @@ class bot():
             self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);") #problem here
         except:
             print(f"ERROR: Could not find.")
+
+    def quit(self):
+            print(f'Quiting...')
+            self.driver.quit()
+            sys.exit()

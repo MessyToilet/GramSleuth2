@@ -27,12 +27,13 @@ def printLogo(color:str = 'white') -> None:
 
     text_color = getattr(Fore, color.upper())
     logo = f"""         
-        {text_color} ██████╗ ██████╗  █████╗ ███╗   ███╗███████╗██╗     ███████╗██╗   ██╗████████╗██╗  ██╗██████╗ {Style.RESET_ALL}
-        {text_color}██╔════╝ ██╔══██╗██╔══██╗████╗ ████║██╔════╝██║     ██╔════╝██║   ██║╚══██╔══╝██║  ██║╚════██╗{Style.RESET_ALL}
-        {text_color}██║  ███╗██████╔╝███████║██╔████╔██║███████╗██║     █████╗  ██║   ██║   ██║   ███████║ █████╔╝{Style.RESET_ALL}
-        {text_color}██║   ██║██╔══██╗██╔══██║██║╚██╔╝██║╚════██║██║     ██╔══╝  ██║   ██║   ██║   ██╔══██║██╔═══╝ {Style.RESET_ALL}
-        {text_color}╚██████╔╝██║  ██║██║  ██║██║ ╚═╝ ██║███████║███████╗███████╗╚██████╔╝   ██║   ██║  ██║███████╗{Style.RESET_ALL}
-        {text_color} ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚══════╝╚══════╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝╚══════╝{Style.RESET_ALL}"""
+        {text_color} ██████╗ ██████╗  █████╗ ███╗   ███╗███████╗██╗     ███████╗██╗   ██╗████████╗██╗  ██╗   ██████╗ {Style.RESET_ALL}
+        {text_color}██╔════╝ ██╔══██╗██╔══██╗████╗ ████║██╔════╝██║     ██╔════╝██║   ██║╚══██╔══╝██║  ██║   ╚════██╗{Style.RESET_ALL}
+        {text_color}██║  ███╗██████╔╝███████║██╔████╔██║███████╗██║     █████╗  ██║   ██║   ██║   ███████║    █████╔╝{Style.RESET_ALL}
+        {text_color}██║   ██║██╔══██╗██╔══██║██║╚██╔╝██║╚════██║██║     ██╔══╝  ██║   ██║   ██║   ██╔══██║   ██╔═══╝ {Style.RESET_ALL}
+        {text_color}╚██████╔╝██║  ██║██║  ██║██║ ╚═╝ ██║███████║███████╗███████╗╚██████╔╝   ██║   ██║  ██║   ███████╗{Style.RESET_ALL}
+        {text_color} ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚══════╝╚══════╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚══════╝{Style.RESET_ALL}
+        {text_color}By: MessyToilet{Style.RESET_ALL}""" 
                                                                                      
     terminal_size = shutil.get_terminal_size()
     lines = logo.split('\n')
@@ -46,7 +47,7 @@ def numberBoarder(num: str) -> str:
 
 def options() -> str:
     while True:
-        print(f'{numberBoarder(1)} Go to followers')
+        print(f'\n{numberBoarder(1)} Go to followers')
         print(f'{numberBoarder(2)} Go to following')
         print(f'{numberBoarder(3)} Quit')
         
@@ -55,7 +56,7 @@ def options() -> str:
                 return str(output)
             else:
                 os.system("cls")
-                printLogo("green")
+                printLogo("red")
         except:
             os.system("cls")
-            printLogo("green")
+            printLogo("red")
