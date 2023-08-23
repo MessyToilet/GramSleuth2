@@ -41,14 +41,17 @@ def printLogo(color:str = 'white') -> None:
     os.system("cls")
     print('\n'.join(centered_lines))
 
+def numberBoarder(num: str) -> str:
+    return f'{Fore.YELLOW}[{Fore.GREEN}{num}{Fore.YELLOW}]{Fore.RESET}'
+
 def options() -> str:
     while True:
-        print(f'{Fore.YELLOW}[{Fore. GREEN}1{Fore.YELLOW}] {Fore.RESET} Go to followers')
-        print(f'{Fore.YELLOW}[{Fore. GREEN}2{Fore.YELLOW}] {Fore.RESET} Quit')
+        print(f'{numberBoarder(1)} Go to followers')
+        print(f'{numberBoarder(2)} Go to following')
+        print(f'{numberBoarder(3)} Quit')
         
         try:
-            output = int(input(f'\n# '))
-            if output in [x for x in range(1,2)]:
+            if (output := int(input(f'\n# '))) in [x for x in range(1,4)]:
                 return str(output)
             else:
                 os.system("cls")

@@ -7,9 +7,9 @@ import pickle as pk
 import os
 
 class bot():
-    def __init__(self, username: str, password: str, path: str) -> None:
+    def __init__(self, username: str, password: str, path: str) -> bool:
         try:
-            self.driver = webdriver.Chrome(os.path.join("GramSleuth2", "requirments", "chromedriver.exe"))                    #init driver
+            self.driver = webdriver.Chrome(os.path.join("GramSleuth2", "chromedriver.exe"))                    #init driver
             print("Found path!")
             self.username = username                                #declare username
             self.password = password                                #declare password
@@ -20,14 +20,15 @@ class bot():
                     cookies = pk.load(open("cookies.pkl", "rb"))            #load cookies
                     for cookie in cookies:
                         self.driver.add_cookie(cookie)
+                    return True
                 except:
                     print("ERROR: Couldn't capture cookies.")
             except:
                 print(f'ERROR: Could not connect (instagram)')
         except:
-            print(f'Error: Could not connect (Selenium).')
+            print(f'ERROR: Could not connect (Selenium).')
 
-    def login(self):
+    def login(self) -> bool:
         try:
             wait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "username"))).send_keys(str(self.username))  
             try:    
@@ -54,6 +55,7 @@ class bot():
                                     wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Turn On']"))).click()
                                 else:
                                     wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Not Now']"))).click()
+                                return True
                             except:
                                 print("ERROR: Action error (enable notifications)")
                         except:
