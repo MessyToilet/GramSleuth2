@@ -15,6 +15,7 @@
 # FAQ
 
 1. Chrome Webdriver 
+    ---
     - Q: I'm getting "Incompatible release of chrome driver (version ... )".
     - A: Make sure you have the correct version of chromedriver, ie: same version as google chrome.
     ---
