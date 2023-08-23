@@ -12,7 +12,7 @@
 > \- David Brin
 
 ---
-# FAQ
+## FAQ
 
 1. Chrome Webdriver 
     ---
