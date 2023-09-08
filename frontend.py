@@ -52,7 +52,7 @@ def options() -> str:
         print(f'{numberBoarder(3)} Quit')
         
         try:
-            if (output := int(input(f'\n# '))) in [x for x in range(1,4)]:
+            if (output := int(input(f'\n# =>  '))) in [x for x in range(1,4)]:
                 return str(output)
             else:
                 os.system("cls")

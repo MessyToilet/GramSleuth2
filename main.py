@@ -1,6 +1,5 @@
 from frontend import printLogo, options
 from backend import bot
-import pwinput
 
 printLogo("red")
 
