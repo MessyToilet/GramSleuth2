@@ -45,18 +45,29 @@ def printLogo(color:str = 'white') -> None:
 def numberBoarder(num: str) -> str:
     return f'{Fore.YELLOW}[{Fore.GREEN}{num}{Fore.YELLOW}]{Fore.RESET}'
 
+def systemBoarder(sys:str = 'ERROR', msg:str = None) -> str:
+    if sys.upper() == 'ERROR':
+        return f'\n{Fore.YELLOW}[{Fore.RED}{sys}{Fore.YELLOW}]{Fore.RESET} {msg}'
+    elif sys.upper() == 'SYSTEM':
+        return f'{Fore.YELLOW}[{Fore.BLUE}{sys}{Fore.YELLOW}]{Fore.RESET} {msg}' 
+
+
 def options() -> str:
     while True:
-        print(f'\n{numberBoarder(1)} Go to followers')
-        print(f'{numberBoarder(2)} Go to following')
-        print(f'{numberBoarder(3)} Quit')
+        print(f'\n{numberBoarder(1)} Get user info')
+        print(f'{numberBoarder(2)} Get user followers')
+        print(f'{numberBoarder(3)} Get user following')
+
+        print(f'\n{numberBoarder(4)} Get target info')
+        print(f'{numberBoarder(5)} Get target followers')
+        print(f'{numberBoarder(6)} Get target following')
+
+        print(f'\n{numberBoarder(7)} Quit')
         
         try:
-            if (output := int(input(f'\n# =>  '))) in [x for x in range(1,4)]:
+            if (output := int(input(f'\n# '))) in [x for x in range(1,8)]:
                 return str(output)
             else:
-                os.system("cls")
-                printLogo("red")
+                print(systemBoarder(sys='ERORR', msg='Bad Args'))
         except:
-            os.system("cls")
-            printLogo("red")
+            print(systemBoarder(sys='ERORR', msg='Bad Args'))
