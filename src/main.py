@@ -1,7 +1,8 @@
-from frontend import printLogo, options, systemBoarder
-from backend import bot
+from src.frontend import printLogo, options, systemBoarder
+from src.backend import bot
 
 printLogo("red")
+
 
 myBot = bot()
 myBot.login()

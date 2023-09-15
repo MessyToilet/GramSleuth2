@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from bs4 import BeautifulSoup
 
-from frontend import systemBoarder
+from src.frontend import systemBoarder
 
 import pickle as pk
 import sys
@@ -17,7 +17,6 @@ import sys
 class bot():
     def __init__(self) -> None:
         try:
-            print(systemBoarder(sys='SYSTEM',msg=''), end='')
             self.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))                    #init driver
             print(systemBoarder(sys='SYSTEM', msg='Found Path!'))
             try:
@@ -88,18 +87,18 @@ class bot():
         try:
             print(systemBoarder(sys='SYSTEM', msg='Collecting data...'))
             print(systemBoarder(sys='SYSTEM', msg='Collecting post count...'))
-            postCount = self.driver.find_element(By.XPATH('//*[@id="mount_0_0_Hx"]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/div[2]/section/main/div/header/section/ul/li[1]/span')).text
+            #postCount = self.driver.find_element(By.XPATH('//*[@id="mount_0_0_P2"]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/div[2]/section/main/div/ul/li[1]/span/span/span')).text
             print(systemBoarder(sys='SYSTEM', msg='Collecting follower count...'))
-            followerCount = self.driver.find_element(By.XPATH('//*[@id="mount_0_0_Hx"]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/div[2]/section/main/div/header/section/ul/li[2]/a/span')).text
+            followerCount = self.driver.find_element(By.XPATH('//*[@id="mount_0_0_P2"]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/div[2]/section/main/div/ul/li[2]/a/span/span')).get_attribute('title')
             print(systemBoarder(sys='SYSTEM', msg='Collecting following count...'))
-            followingCount = self.driver.find_element(By.XPATH('//*[@id="mount_0_0_Hx"]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/div[2]/section/main/div/header/section/ul/li[3]/a/span')).text
+            followingCount = self.driver.find_element(By.XPATH('/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/div[2]/section/main/div/ul/li[3]/a/span')).text
             print(systemBoarder(sys='system', msg='Collecting bio...'))
-            bio = self.driver.find_element(By.XPATH('//*[@id="mount_0_0_Hx"]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/div[2]/section/main/div/header/section/div[3]/h1')).text
+            #bio = self.driver.find_element(By.XPATH('/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/div[2]/section/main/div/div[1]')).text()
 
-            print(f'Num Posts: {postCount}')
+            #print(f'Num Posts: {postCount}')
             print(f'Followers: {followerCount}')
             print(f'Following: {followingCount}')
-            print(f'\nBio:\n\t{bio}')
+            #print(f'\nBio:\n\t{bio}')
         except:
             print(systemBoarder(sys='ERROR', msg='Could not collect'))
 
