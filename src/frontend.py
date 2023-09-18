@@ -47,9 +47,9 @@ def numberBoarder(num: str) -> str:
 
 def systemBoarder(sys:str = 'ERROR', msg:str = None) -> str:
     if sys.upper() == 'ERROR':
-        return f'\n{Fore.YELLOW}[{Fore.RED}{sys}{Fore.YELLOW}]{Fore.RESET} {msg}'
+        print(f'\n{Fore.YELLOW}[{Fore.RED}{sys}{Fore.YELLOW}]{Fore.RESET} {msg}')
     elif sys.upper() == 'SYSTEM':
-        return f'{Fore.YELLOW}[{Fore.BLUE}{sys}{Fore.YELLOW}]{Fore.RESET} {msg}' 
+        print(f'{Fore.YELLOW}[{Fore.BLUE}{sys}{Fore.YELLOW}]{Fore.RESET} {msg}')
 
 
 def options() -> str:
@@ -62,12 +62,15 @@ def options() -> str:
         print(f'{numberBoarder(5)} Get target followers')
         print(f'{numberBoarder(6)} Get target following')
 
-        print(f'\n{numberBoarder(7)} Quit')
-        
+        print(f'\n{numberBoarder(7)} Save to file')
+        print(f'{numberBoarder(8)} Settings') #clear history, color, windowed/window-less
+        print(f'{numberBoarder(9)} Help') 
+        print(f'{numberBoarder(10)} Quit')
+
         try:
             if (output := int(input(f'\n# '))) in [x for x in range(1,8)]:
                 return str(output)
             else:
-                print(systemBoarder(sys='ERORR', msg='Bad Args'))
+                systemBoarder(sys='ERORR', msg='Bad Args')  #Do i need this?
         except:
-            print(systemBoarder(sys='ERORR', msg='Bad Args'))
+            systemBoarder(sys='ERORR', msg='Bad Args')

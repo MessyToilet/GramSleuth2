@@ -1,5 +1,5 @@
-from src.frontend import printLogo, options, systemBoarder
-from src.backend import bot
+from frontend import printLogo, options, systemBoarder
+from backend import bot
 
 printLogo("red")
 
@@ -25,6 +25,13 @@ while (option := options()):
         elif option == '6':
             myBot.get_target_following(target)
     elif option == "7":
+        pass
+    elif option == "8":
+        pass 
+    elif option == '9':
+        pass 
+    elif option == '9':
         myBot.quit()
+
 
        

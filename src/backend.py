@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from bs4 import BeautifulSoup
 
-from src.frontend import systemBoarder
+from frontend import systemBoarder
 
 import pickle as pk
 import sys
@@ -18,63 +18,76 @@ class bot():
     def __init__(self) -> None:
         try:
             self.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))                    #init driver
-            print(systemBoarder(sys='SYSTEM', msg='Found Path!'))
-            try:
-                self.driver.get("https://www.instagram.com/")           #get site
-                print(systemBoarder(sys='SYSTEM', msg='Capturing cookies...'))
-                try:
-                    cookies = pk.load(open("cookies.pkl", "rb"))            #load cookies
-                    for cookie in cookies:
-                        self.driver.add_cookie(cookie)
-                except:
-                    print("ERROR: Couldn't capture cookies.")
-            except:
-                print(f'ERROR: Could not connect (instagram)')
+            systemBoarder(sys='SYSTEM', msg='Found Path!')
         except:
-            print(f'ERROR: Could not connect (Selenium).')
+            systemBoarder(sys="ERROR", msg="Could not connect (Selenium)")
+        try:
+            self.driver.get("https://www.instagram.com/")           #get site
+            systemBoarder(sys='SYSTEM', msg='Connecting (Instagram)')
+        except:
+            systemBoarder(sys="ERROR", msg="Could not connect (Instagram)")
+        try:
+            systemBoarder(sys="SYSTEM", msg="Loading cookies")
+            cookies = pk.load(open("cookies.pkl", "rb"))            #load cookies
+            for cookie in cookies:
+                self.driver.add_cookie(cookie)
+        except:
+            systemBoarder(sys="ERROR", msg="Could not load cookies")
 
     def login(self) -> bool:
         self.username = str(input(f"\nUsername: "))                                #declare username
         self.password = str(input(f"Password: "))                                  #declare password
-        try:
+        
+        try:    #USERNAME 
+            systemBoarder(sys="system", msg="\nFinding username element...")
             wait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "username"))).send_keys(str(self.username))  
-            try:    
-                wait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "password"))).send_keys(str(self.password))                     #send creds
-                print(f"\nSending credentials...")
-                try:
-                    wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="loginForm"]/div/div[3]/button/div'))).click()    #send creds
-                    print("Login successful.")
-                    try:
-                        wait(self.driver, 10).until(EC.url_to_be("https://www.instagram.com/accounts/onetap/?next=%2F"))
-                        if self.driver.current_url == "https://www.instagram.com/accounts/onetap/?next=%2F":
-                            if str(input("Save login? (y/n): ")).upper() == "Y":
-                                try:
-                                    wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/section/main/div/div/div/section/div/button'))).click()
-                                    pk.dump(self.driver.get_cookies(), open("coockies.pkl", "wb"))
-                                    print(f"Saving cookies...")
-                                except:
-                                    print(f"ERROR: Couldn't Click.")
-                            else:
-                                wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/section/main/div/div/div/div/div'))).click()
-
-                        try:
-                            wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Not Now']")))
-                            if str(input("Enable notifications? (y/n): ")).upper() == "Y":
-                                wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Turn On']"))).click()
-                            else:
-                                wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Not Now']"))).click()
-                            return True
-                        except:
-                            print("ERROR: Action error (enable notifications)")
-                    except:
-                        print("ERROR: Action error (save login).")
-                except:
-                    print(f"ERROR: Couldn't click login.")
-            except:
-                print(f"ERROR: Couldn't send password.")
+            systemBoarder(sys="system", msg="Sending credentials...")
         except:
-            print(f"ERROR: Couldnt't send username.")
+            systemBoarder(sys="error",msg="Could not find username element")    #or send keys or bad args?
+        
+        try:    #PASSWORD
+            systemBoarder(sys="Finding password element...")  
+            wait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "password"))).send_keys(str(self.password))                     #send creds
+            systemBoarder(sys="system",msg="Sending credentials...")
+        except:
+            systemBoarder(sys="error", msg="Could not find password element") #or send keys or bad creds
+        
+        try:    #LOG IN
+            systemBoarder(sys="system",msg="Finding login element")
+            wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="loginForm"]/div/div[3]/button/div'))).click()    #send creds
+            systemBoarder(sys="system", msg="Login sucessfull")
+        except:
+            systemBoarder(sys="ERROR", msg="Could not login")
+        
+        try:
+            systemBoarder(sys="system", msg='Scanning for element...')
+            wait(self.driver, 10).until(EC.url_to_be("https://www.instagram.com/accounts/onetap/?next=%2F"))
+            if self.driver.current_url == "https://www.instagram.com/accounts/onetap/?next=%2F":
+                if str(input("\nSave login? (y/n): ")).upper() == "Y":
+                    try:
+                        systemBoarder(sys="system", msg="\nSaving cookies...")
+                        wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/section/main/div/div/div/section/div/button'))).click()
+                        pk.dump(self.driver.get_cookies(), open("coockies.pkl", "wb"))
+                    except:
+                        systemBoarder(sys="error", msg="Could not click")
+                else:
+                    wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/section/main/div/div/div/div/div'))).click()            
+        except:
+            systemBoarder(sys='error', msg="Could not perform save login action")
 
+        try:
+            systemBoarder(sys="system", msg='\nScanning for element...')
+            wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Not Now']")))
+            if str(input("\nEnable notifications? (y/n): ")).upper() == "Y":
+                systemBoarder(sys="system", msg='\nEnabling notifications...')
+                wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Turn On']"))).click()
+            else:
+                systemBoarder(sys="system", msg='\nNot enabling notifications...')
+                wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Not Now']"))).click()            
+            return True 
+        except:
+            systemBoarder(sys='error', msg="Could not perform notifications action")
+    
 ### USER ACTOINS ###
 
     def get_your_info(self):
