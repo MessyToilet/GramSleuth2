@@ -30,7 +30,7 @@ while (option := options()):
         pass 
     elif option == '9':
         pass 
-    elif option == '9':
+    elif option == '10':
         myBot.quit()
 
 

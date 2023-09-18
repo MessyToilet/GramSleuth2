@@ -15,7 +15,7 @@ import pickle as pk
 import sys
 
 class bot():
-    def __init__(self) -> None:
+    def __init__(self) -> None: 
         try:
             self.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))                    #init driver
             systemBoarder(sys='SYSTEM', msg='Found Path!')
@@ -65,7 +65,7 @@ class bot():
             if self.driver.current_url == "https://www.instagram.com/accounts/onetap/?next=%2F":
                 if str(input("\nSave login? (y/n): ")).upper() == "Y":
                     try:
-                        systemBoarder(sys="system", msg="\nSaving cookies...")
+                        systemBoarder(sys="system", msg="Saving cookies...")
                         wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/section/main/div/div/div/section/div/button'))).click()
                         pk.dump(self.driver.get_cookies(), open("coockies.pkl", "wb"))
                     except:
@@ -76,13 +76,13 @@ class bot():
             systemBoarder(sys='error', msg="Could not perform save login action")
 
         try:
-            systemBoarder(sys="system", msg='\nScanning for element...')
+            systemBoarder(sys="system", msg='Scanning for element...')
             wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Not Now']")))
             if str(input("\nEnable notifications? (y/n): ")).upper() == "Y":
                 systemBoarder(sys="system", msg='\nEnabling notifications...')
                 wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Turn On']"))).click()
             else:
-                systemBoarder(sys="system", msg='\nNot enabling notifications...')
+                systemBoarder(sys="system", msg='Not enabling notifications...')
                 wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Not Now']"))).click()            
             return True 
         except:
