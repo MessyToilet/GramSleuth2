@@ -1,0 +1,31 @@
+name: Python Update and Install Requirements
+
+on:
+  push:
+    branches:
+      - main  # Replace with the branch you want to trigger on
+
+jobs:
+  update_and_install:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'  # Choose the Python version you want
+
+      - name: Install pip
+        run: |
+          python3 -m ensurepip
+          python3 -m pip install --upgrade pip
+        # This step ensures that pip is installed and up to date
+
+      - name: Install project dependencies
+        run: |
+          pip install -r requirements.txt
+
+##CHATGPT CODE
