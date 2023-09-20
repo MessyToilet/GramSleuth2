@@ -2,8 +2,7 @@
 *.pyc   
 __pycache__/
 
-#cookie file
 *.pkl
 
-#config file
 *.txt
+
