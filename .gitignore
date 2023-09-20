@@ -1,4 +1,6 @@
-*.pyc
+#Python garbage
+*.pyc   
 __pycache__/
+
 *.pkl
 venv
