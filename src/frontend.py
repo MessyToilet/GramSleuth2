@@ -45,7 +45,7 @@ def printLogo(color:str = 'white') -> None:
 def numberBoarder(num: str) -> str:
     return f'{Fore.YELLOW}[{Fore.GREEN}{num}{Fore.YELLOW}]{Fore.RESET}'
 
-def systemBoarder(sys:str = 'ERROR', msg:str = None) -> str:
+def systemBoarder(sys:str, msg:str) -> str:
     if sys.upper() == 'ERROR':
         print(f'\n{Fore.YELLOW}[{Fore.RED}{sys}{Fore.YELLOW}]{Fore.RESET} {msg}')
     elif sys.upper() == 'SYSTEM':
@@ -68,7 +68,7 @@ def options() -> str:
         print(f'{numberBoarder(10)} Quit')
 
         try:
-            if (output := int(input(f'\n# '))) in [x for x in range(1,8)]:
+            if (output := int(input(f'\n# '))) in [x for x in range(1,11)]:
                 return str(output)
             else:
                 systemBoarder(sys='ERORR', msg='Bad Args')  #Do i need this?
