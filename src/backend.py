@@ -97,36 +97,36 @@ class bot():
 
     def get_your_info(self):
         try:
-            print(systemBoarder(sys='SYSTEM', msg='Loading followers...'))
+            systemBoarder(sys='SYSTEM', msg='Loading followers...')
             self.driver.get(f"https://www.instagram.com/{self.username}/")
         except:
             print(systemBoarder(sys='ERROR', msg='Could not load profile'))
 
-        print(systemBoarder(sys='SYSTEM', msg='Collecting data...'))
+        systemBoarder(sys='SYSTEM', msg='Collecting data...')
 
         try:
-            print(systemBoarder(sys='SYSTEM', msg='Collecting post count...'))
-            postCount = self.driver.find_element(By.CSS_SELECTOR,"#mount_0_0_LS > div > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div > div.x78zum5.xdt5ytf.x1t2pt76.x1n2onr6.x1ja2u2z.x10cihs4 > div.x9f619.xvbhtw8.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.x1uhb9sk.x1plvlek.xryxfnj.x1c4vz4f.x2lah0s.x1q0g3np.xqjyukv.x1qjc9v5.x1oa3qoh.x1qughib > div.x1gryazu.xh8yej3.x10o80wk.x14k21rp.x17snn68.x6osk4m.x1porb0y > div:nth-child(2) > section > main > div > header > section > ul > li:nth-child(1) > span > span").text
+            systemBoarder(sys='SYSTEM', msg='Collecting post count...')
+            postCount = wait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#mount_0_0_nI > div > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div > div.x78zum5.xdt5ytf.x1t2pt76.x1n2onr6.x1ja2u2z.x10cihs4 > div.x9f619.xvbhtw8.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.x1uhb9sk.x1plvlek.xryxfnj.x1c4vz4f.x2lah0s.xdt5ytf.xqjyukv.x1qjc9v5.x1oa3qoh.x1qughib > div.x1gryazu.xh8yej3.x10o80wk.x14k21rp.x17snn68.x6osk4m.x1porb0y > div:nth-child(2) > section > main > div > ul > li:nth-child(1) > span > span"))).text
             print(f'Num Posts: {postCount}')
         except:
             systemBoarder(sys="error", msg="Could not find post count")
 
         try:
-            print(systemBoarder(sys='SYSTEM', msg='Collecting follower count...'))
-            followerCount = self.driver.find_element(By.XPATH('//*[@id="mount_0_0_P2"]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/div[2]/section/main/div/ul/li[2]/a/span/span')).get_attribute('title')
+            systemBoarder(sys='SYSTEM', msg='Collecting follower count...')
+            followerCount = wait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#mount_0_0_nI > div > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div > div.x78zum5.xdt5ytf.x1t2pt76.x1n2onr6.x1ja2u2z.x10cihs4 > div.x9f619.xvbhtw8.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.x1uhb9sk.x1plvlek.xryxfnj.x1c4vz4f.x2lah0s.xdt5ytf.xqjyukv.x1qjc9v5.x1oa3qoh.x1qughib > div.x1gryazu.xh8yej3.x10o80wk.x14k21rp.x17snn68.x6osk4m.x1porb0y > div:nth-child(2) > section > main > div > ul > li:nth-child(2) > a > span > span"))).text
             print(f'Followers: {followerCount}')
         except:
             systemBoarder(sys="error", msg="Could not find follower count")
 
         try:    
-            print(systemBoarder(sys='SYSTEM', msg='Collecting following count...'))
-            followingCount = self.driver.find_element(By.XPATH('/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/div[2]/section/main/div/ul/li[3]/a/span')).text
+            systemBoarder(sys='SYSTEM', msg='Collecting following count...')
+            followingCount = wait(self.driver, 10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "#mount_0_0_nI > div > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div > div.x78zum5.xdt5ytf.x1t2pt76.x1n2onr6.x1ja2u2z.x10cihs4 > div.x9f619.xvbhtw8.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.x1uhb9sk.x1plvlek.xryxfnj.x1c4vz4f.x2lah0s.xdt5ytf.xqjyukv.x1qjc9v5.x1oa3qoh.x1qughib > div.x1gryazu.xh8yej3.x10o80wk.x14k21rp.x17snn68.x6osk4m.x1porb0y > div:nth-child(2) > section > main > div > ul > li:nth-child(3) > a > span > span"))).text
             print(f'Following: {followingCount}')
         except:
             systemBoarder(sys='error', msg='Could not find following count')
 
         try:
-            print(systemBoarder(sys='system', msg='Collecting bio...'))
+            systemBoarder(sys='system', msg='Collecting bio...')
             bio = self.driver.find_element(By.XPATH('/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/div[2]/section/main/div/div[1]')).text()
         except:
             systemBoarder(sys='error', msg='Could not collet bio')
@@ -134,13 +134,13 @@ class bot():
 
     def get_your_followers(self):
         try:
-            print(systemBoarder(sys='SYSTEM', msg='Loading followers...'))
+            systemBoarder(sys='SYSTEM', msg='Loading followers...')
             self.driver.get(f"https://www.instagram.com/{self.username}/followers/")
             
-            print(systemBoarder(sys='SYSTEM', msg='Waiting...'))
+            systemBoarder(sys='SYSTEM', msg='Waiting...')
             wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Remove']")))
             
-            print(systemBoarder(sys='SYSTEM', msg='Scrolling...')) 
+            systemBoarder(sys='SYSTEM', msg='Scrolling...')
             numScrolls = 20
             for _ in range(numScrolls):
                 self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -148,7 +148,7 @@ class bot():
             
             #self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);") #problem here
         except:
-            print(systemBoarder(sys='ERROR', msg='Could not find'))
+            systemBoarder(sys='ERROR', msg='Could not find')
           
 
     def get_your_following(self):
