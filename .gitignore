@@ -1,4 +1,9 @@
-*.pyc
+#Python garbage
+*.pyc   
 __pycache__/
+
+#cookie file
 *.pkl
+
+#config file
 *.txt
