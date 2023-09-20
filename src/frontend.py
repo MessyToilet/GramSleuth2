@@ -33,7 +33,7 @@ def printLogo(color:str = 'white') -> None:
         {text_color}██║   ██║██╔══██╗██╔══██║██║╚██╔╝██║╚════██║██║     ██╔══╝  ██║   ██║   ██║   ██╔══██║   ██╔═══╝ {Style.RESET_ALL}
         {text_color}╚██████╔╝██║  ██║██║  ██║██║ ╚═╝ ██║███████║███████╗███████╗╚██████╔╝   ██║   ██║  ██║   ███████╗{Style.RESET_ALL}
         {text_color} ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚══════╝╚══════╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚══════╝{Style.RESET_ALL}
-        {text_color}By: MessyToilet{Style.RESET_ALL}""" 
+        {text_color}By: MessyToilet x Raeeceip{Style.RESET_ALL}""" 
                                                                                      
     terminal_size = shutil.get_terminal_size()
     lines = logo.split('\n')
@@ -45,7 +45,7 @@ def printLogo(color:str = 'white') -> None:
 def numberBoarder(num: str) -> str:
     return f'{Fore.YELLOW}[{Fore.GREEN}{num}{Fore.YELLOW}]{Fore.RESET}'
 
-def systemBoarder(sys:str, msg:str) -> str:
+def systemBoarder(sys:str, msg:str):
     if sys.upper() == 'ERROR':
         print(f'\n{Fore.YELLOW}[{Fore.RED}{sys}{Fore.YELLOW}]{Fore.RESET} {msg}')
     elif sys.upper() == 'SYSTEM':
