@@ -11,8 +11,8 @@ from bs4 import BeautifulSoup
 
 from frontend import systemBoarder
 
-import pickle as pk
-import sys
+import pickle as pk     #cookie files
+import sys  
 
 class bot():
     def __init__(self) -> None: 
@@ -37,9 +37,35 @@ class bot():
             systemBoarder(sys="ERROR", msg="Could not load cookies")                #edge case
 
     def login(self) -> bool:
-        self.username = str(input(f"\nUsername: "))                                 #declare username
-        self.password = str(input(f"Password: "))                                   #declare password
-        print()
+        if str(input(f'Use a saved login? (y/n): ')).upper() == 'Y':
+            print()
+            try:
+                systemBoarder(sys='system', msg='Checking for saved logins...')
+                logins = []
+                with open('..\\reasources\\savedLogins.txt', 'r') as file:
+                    for line in file:
+                        logins.append(line.strip("\n"))
+
+                systemBoarder(sys='systeam', msg=f'Found {len(logins)} logins...')
+
+                for count, login in enumerate(logins):
+                    print(count, login)
+
+                choice = int(input(f'Pick your login: '))
+                
+                self.username = login[choice].split()[0]
+                self.password = login[choice].split()[1]
+                systemBoarder(sys='system', msg=f'Using {self.username} {self.password}')
+            
+            except:
+                systemBoarder(sys='error', msg='Could not find login files')    
+                self.username = str(input(f"\nUsername: "))                                 #declare username
+                self.password = str(input(f"Password: "))                                   #declare password
+        
+        else:
+            self.username = str(input(f"\nUsername: "))                                 #declare username
+            self.password = str(input(f"Password: "))          
+            print()
         
         try:    #USERNAME 
             systemBoarder(sys="system", msg="Finding username element...")
@@ -66,7 +92,7 @@ class bot():
             systemBoarder(sys="system", msg='Scanning for element...')
             wait(self.driver, 10).until(EC.url_to_be("https://www.instagram.com/accounts/onetap/?next=%2F"))
             if self.driver.current_url == "https://www.instagram.com/accounts/onetap/?next=%2F":
-                if str(input("\nSave login? (y/n): ")).upper() == "Y":
+                if str(input("\nSave login for Instagram? (y/n): ")).upper() == "Y":
                     try:
                         systemBoarder(sys="system", msg="Saving cookies...")
                         wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/section/main/div/div/div/section/div/button'))).click()
@@ -196,6 +222,25 @@ class bot():
             except:
                 systemBoarder(sys='error', msg='Could not save cookies')
 
+            if str(input(f'Save login locally? (y/n): ')).upper() == 'Y':
+                try:
+                    systemBoarder(sys='system', msg='Looking for savedLogins.txt')
+                    with open('..\\reasources\\savedLogins.txt', 'w' ) as file:
+                        existingContent = file.read()
+                    
+                    if f'{self.username} {self.password}' not in existingContent:
+                        systemBoarder(sys='system', msg='Saving login...')
+                        with open('..\\reasources\\savedLogins.txt', 'a') as file:
+                            file.write(self.username, self.password)
+                        systemBoarder(sys='system', msg='Saved login')
+                except:
+                    systemBoarder(sys='error', msg='savedLogins.txt not found')
+                    systemBoarder(sys='system', msg='Creating savedLogins.txt...')
+
+                    with open('..\\reasources\\savedLogins.txt', 'w') as file:
+                        file.write(f'{self.username} {self.password}')
+                    systemBoarder(sys='system', msg='Saved login')        
+            
             systemBoarder(sys='SYSTEM',msg='Quiting...')
             sys.exit()
 
