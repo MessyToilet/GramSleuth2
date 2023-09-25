@@ -48,13 +48,13 @@ def numberBoarder(num: str) -> str:
 
 def systemBoarder(sys:str, msg:str) -> str: #MAY CAUSE PROBLEMS!! (COULD CAUSE PRINT NONE)
     if sys.upper() == 'ERROR':
-        print(f'{Fore.YELLOW}[{Fore.RED}{sys.upper()}{Fore.YELLOW}]{Fore.RESET} {msg}')
+        print(f'{Fore.YELLOW}[{Fore.RED}{sys.upper()}{Fore.YELLOW}]{Fore.RESET}  {msg}')
     
     elif sys.upper() == 'SYSTEM':
         print(f'{Fore.YELLOW}[{Fore.BLUE}{sys.upper()}{Fore.YELLOW}]{Fore.RESET} {msg}')
    
     elif sys.upper() == "USER":
-        return(f'\n{Fore.YELLOW}[{Fore.CYAN}{sys.upper()}{Fore.YELLOW}]{Fore.RESET} {msg}')
+        return(f'\n{Fore.YELLOW}[{Fore.CYAN}{sys.upper()}{Fore.YELLOW}]{Fore.RESET}   {msg}')
         
 
 def options() -> str:

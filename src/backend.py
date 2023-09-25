@@ -140,7 +140,7 @@ class bot():
         try:
             systemBoarder(sys='SYSTEM', msg='Collecting post count...')
             postCount = self.driver.find_element(By.CSS_SELECTOR, "body > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > section:nth-child(1) > main:nth-child(1) > div:nth-child(1) > header:nth-child(1) > section:nth-child(2) > ul:nth-child(3) > li:nth-child(1) > span:nth-child(1) > span:nth-child(1)").text
-            print(f'Num Posts: {postCount}')
+            #print(f'Num Posts: {postCount}')
         except:
             systemBoarder(sys="error", msg="Could not find post count")
 
@@ -148,7 +148,7 @@ class bot():
             systemBoarder(sys='SYSTEM', msg='Collecting follower count...')
             followerCount = self.driver.find_element(By.XPATH, "/html[1]/body[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/section[1]/main[1]/div[1]/header[1]/section[1]/ul[1]/li[2]/a[1]/span[1]/span[1]").text
             #followerCount = wait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#mount_0_0_0l > div > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div > div.x78zum5.xdt5ytf.x1t2pt76.x1n2onr6.x1ja2u2z.x10cihs4 > div.x9f619.xvbhtw8.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.x1uhb9sk.x1plvlek.xryxfnj.x1c4vz4f.x2lah0s.x1q0g3np.xqjyukv.x1qjc9v5.x1oa3qoh.x1qughib > div.x1gryazu.xh8yej3.x10o80wk.x14k21rp.x17snn68.x6osk4m.x1porb0y > div:nth-child(2) > section > main > div > header > section > ul > li:nth-child(2) > a > span"))).title
-            print(f'Followers: {followerCount}')
+            #print(f'Followers: {followerCount}')
         except:
             systemBoarder(sys="error", msg="Could not find follower count")
 
@@ -156,16 +156,37 @@ class bot():
             systemBoarder(sys='SYSTEM', msg='Collecting following count...')
             followingCount = self.driver.find_element(By.CSS_SELECTOR, "li:nth-child(3) a:nth-child(1) span:nth-child(1) span:nth-child(1)").text
             #followingCount = wait(self.driver, 10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "#mount_0_0_0l > div > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div > div.x78zum5.xdt5ytf.x1t2pt76.x1n2onr6.x1ja2u2z.x10cihs4 > div.x9f619.xvbhtw8.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.x1uhb9sk.x1plvlek.xryxfnj.x1c4vz4f.x2lah0s.x1q0g3np.xqjyukv.x1qjc9v5.x1oa3qoh.x1qughib > div.x1gryazu.xh8yej3.x10o80wk.x14k21rp.x17snn68.x6osk4m.x1porb0y > div:nth-child(2) > section > main > div > header > section > ul > li:nth-child(3) > a > span > span"))).text
-            print(f'Following: {followingCount}')
+            #print(f'Following: {followingCount}')
         except:
             systemBoarder(sys='error', msg='Could not find following count')
 
         try:
-            systemBoarder(sys='system', msg='Collecting bio...')
-            bio = self.driver.find_element(By.XPATH('/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/div[2]/section/main/div/div[1]')).text()
+            systemBoarder(sys='system', msg='Collecting bio...')            
+            bio = self.driver.find_element(By.CLASS_NAME, "_aacl").text     #Get bio, must parse (contains new line chars)
+            bio = bio.split('\n')
         except:
             systemBoarder(sys='error', msg='Could not collet bio')
 
+        try:
+            systemBoarder(sys='system', msg='Collecting Name...')
+            name = self.driver.find_element(By.XPATH, "//span[@class='x1lliihq x1plvlek xryxfnj x1n2onr6 x193iq5w xeuugli x1fj9vlw x13faqbe x1vvkbs x1s928wv xhkezso x1gmr53x x1cpjm7i x1fgarty x1943h6x x1i0vuye xvs91rp x1s688f x5n08af x10wh9bi x1wdrske x8viiok x18hxmgj']").text
+        except:
+            systemBoarder(sys='error', msg='Could not collect name')
+        
+        try:
+            systemBoarder(sys='system', msg='Getting profile picture...')
+            imageUrl = self.driver.find_element(By.XPATH, '//img[@class="_aadp"]').get_attribute('src')
+        except:
+            systemBoarder(sys='error', msg='Could not get image url')
+
+        print(f'\n\n\t Username     Posts    Flwrs    Flwng')
+        print(f'\n\t{self.username}\t{postCount}\t{followerCount}\t{followingCount}')
+        print(f'Name\t{name}')
+        print(f'Bio', end='')
+        for line in bio:
+            print(f'\t{line}')
+        print(f'\nProfile pic url')
+        print(f'\n{imageUrl}')
 
     def get_your_followers(self):
         try:
