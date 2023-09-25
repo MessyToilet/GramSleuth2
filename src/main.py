@@ -1,13 +1,43 @@
 from frontend import printLogo, options, systemBoarder
 from backend import bot
+import sys
+
+
+if len(sys.argv) >= 2:
+    if sys.argv[1].upper() ==  "D":
+        systemBoarder(sys='system', msg='Enter Dev Mode...')
+        while (option := options()):
+            if int(option) >= 1 and int(option) <= 3:
+                if option == '1':
+                    pass
+                elif option == '2':
+                    pass
+                elif option == '3':
+                    pass
+            elif int(option) >= 4 and int(option) < 7:
+                target = str(input(f'Target @: '))
+                if option == '4':
+                    pass
+                elif option == '5':
+                    pass
+                elif option == '6':
+                    pass
+            elif option == "7":
+                pass
+            elif option == "8":
+                pass 
+            elif option == '9':
+                pass 
+            elif option == '10':
+                sys.exit()      
 
 printLogo("red")
-
 
 myBot = bot()
 myBot.login()
 
 printLogo("red")
+
 while (option := options()):
     if int(option) >= 1 and int(option) <= 3:
         if option == '1':
