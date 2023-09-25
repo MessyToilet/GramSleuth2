@@ -47,9 +47,11 @@ class bot():
                         logins.append(line.strip("\n"))                                         #Append login, strip new line
 
                 systemBoarder(sys='systeam', msg=f'Found {len(logins)} logins...')              #print success and how many logins
-
+                
+                print()
                 for count, login in enumerate(logins):                                          #for num of logins 
                     print(count, login)                                                         #print the number and login
+                print()
 
                 choice = int(input(f'Pick your login: '))                                       #Ask user to pick (HANDLE CONDITION LOGIN NO LONGER WORKS AND FAILED LOGIN IN GENERAL)
                 
