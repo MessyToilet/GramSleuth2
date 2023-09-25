@@ -45,15 +45,20 @@ def printLogo(color:str = 'white') -> None:
 def numberBoarder(num: str) -> str:
     return f'{Fore.YELLOW}[{Fore.GREEN}{num}{Fore.YELLOW}]{Fore.RESET}'
 
-def systemBoarder(sys:str, msg:str):
+def systemBoarder(sys:str, msg:str) -> str: #MAY CAUSE PROBLEMS!!
     if sys.upper() == 'ERROR':
-        print(f'\n{Fore.YELLOW}[{Fore.RED}{sys}{Fore.YELLOW}]{Fore.RESET} {msg}')
+        return(f'\n{Fore.YELLOW}[{Fore.RED}{sys.upper()}{Fore.YELLOW}]{Fore.RESET} {msg}')
+    
     elif sys.upper() == 'SYSTEM':
-        print(f'{Fore.YELLOW}[{Fore.BLUE}{sys}{Fore.YELLOW}]{Fore.RESET} {msg}')
-
+        return(f'\n{Fore.YELLOW}[{Fore.BLUE}{sys.upper()}{Fore.YELLOW}]{Fore.RESET} {msg}')
+   
+    elif sys.upper() == "USER":
+        return(f'\n{Fore.YELLOW}[{Fore.CYAN}{sys.upper()}{Fore.YELLOW}]{Fore.RESET} {msg}')
+        
 
 def options() -> str:
     while True:
+        '''
         print(f'\n{numberBoarder(1)} Get user info')
         print(f'{numberBoarder(2)} Get user followers')
         print(f'{numberBoarder(3)} Get user following')
@@ -66,9 +71,25 @@ def options() -> str:
         print(f'{numberBoarder(8)} Settings') #clear history, color, windowed/window-less
         print(f'{numberBoarder(9)} Help') 
         print(f'{numberBoarder(10)} Quit')
+        '''
+        print(f'\n{numberBoarder(1)} Get user info', end='\t\t')
+        print(f'{numberBoarder(4)} Get target info', end='\t\t')
+        print(f'{numberBoarder(7)} Save to file', end='\t')
+        print(f'{numberBoarder(10)} Quit')
+
+        print(f'{numberBoarder(2)} Get user followers', end='\t\t')
+        print(f'{numberBoarder(5)} Get target followers', end='\t')
+        print(f'{numberBoarder(8)} Settings') #clear history, color, windowed/window-less
+
+        print(f'{numberBoarder(3)} Get user following', end="\t\t")
+        print(f'{numberBoarder(6)} Get target following', end='\t')
+        print(f'{numberBoarder(9)} Help') 
+
+        
 
         try:
-            if (output := int(input(f'\n# '))) in [x for x in range(1,11)]:
+            print(f'{systemBoarder(sys="user", msg=">>>")}', end="")
+            if (output := int(input(f' '))) in [x for x in range(1,11)]:
                 return str(output)
             else:
                 systemBoarder(sys='ERORR', msg='Bad Args')  #Do i need this?

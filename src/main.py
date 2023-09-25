@@ -2,11 +2,14 @@ from frontend import printLogo, options, systemBoarder
 from backend import bot
 import sys
 
-
+print(printLogo('RED'))
 if len(sys.argv) >= 2:
     if sys.argv[1].upper() ==  "D":
-        systemBoarder(sys='system', msg='Enter Dev Mode...')
+        print(systemBoarder(sys='system', msg='Enter Dev Mode...'))
         while (option := options()):
+            print(systemBoarder(sys='SYSTEM', msg='SYSTEM'))
+            print(systemBoarder(sys='ERROR', msg='ERROR'))
+            print(systemBoarder(sys='User', msg='USER'))
             if int(option) >= 1 and int(option) <= 3:
                 if option == '1':
                     pass
