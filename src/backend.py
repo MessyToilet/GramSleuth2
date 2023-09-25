@@ -24,111 +24,111 @@ class bot():
        
         try:
             self.driver.get("https://www.instagram.com/")                           #get site
-            systemBoarder(sys='SYSTEM', msg='Connecting (Instagram)')
+            systemBoarder(sys='SYSTEM', msg='Connecting (Instagram)')               #print connecting
         except:
             systemBoarder(sys="ERROR", msg="Could not connect (Instagram)")
         
         try:
             systemBoarder(sys="SYSTEM", msg="Loading cookies...")
-            cookies = pk.load(open("..\\reasources\\cookies.pkl", "rb"))                            #load cookies
-            for cookie in cookies:
-                self.driver.add_cookie(cookie)
+            cookies = pk.load(open("..\\reasources\\cookies.pkl", "rb"))            #load cookies
+            for cookie in cookies:                                                  #open cookies file
+                self.driver.add_cookie(cookie)                                      #dump cookies with selenium
         except:
             systemBoarder(sys="ERROR", msg="Could not load cookies")                #edge case
 
     def login(self) -> bool:
-        if str(input(f'Use a saved login? (y/n): ')).upper() == 'Y':
+        if str(input(f'Use a saved login? (y/n): ')).upper() == 'Y':                            #Ask to use saved login
             print()
             try:
-                systemBoarder(sys='system', msg='Checking for saved logins...')
-                logins = []
-                with open('..\\reasources\\savedLogins.txt', 'r') as file:
-                    for line in file:
-                        logins.append(line.strip("\n"))
+                systemBoarder(sys='system', msg='Checking for saved logins...')                 #print
+                logins = []                                                                     #put logins into array
+                with open('..\\reasources\\savedLogins.txt', 'r') as file:                      #open login file
+                    for line in file:                                                           #iterate through file
+                        logins.append(line.strip("\n"))                                         #Append login, strip new line
 
-                systemBoarder(sys='systeam', msg=f'Found {len(logins)} logins...')
+                systemBoarder(sys='systeam', msg=f'Found {len(logins)} logins...')              #print success and how many logins
 
-                for count, login in enumerate(logins):
-                    print(count, login)
+                for count, login in enumerate(logins):                                          #for num of logins 
+                    print(count, login)                                                         #print the number and login
 
-                choice = int(input(f'Pick your login: '))
+                choice = int(input(f'Pick your login: '))                                       #Ask user to pick (HANDLE CONDITION LOGIN NO LONGER WORKS AND FAILED LOGIN IN GENERAL)
                 
-                self.username = login[choice].split()[0]
-                self.password = login[choice].split()[1]
-                systemBoarder(sys='system', msg=f'Using {self.username} {self.password}')
+                self.username = login[choice].split()[0]                                        #Choose username
+                self.password = login[choice].split()[1]                                        #Choose password
+                systemBoarder(sys='system', msg=f'Using {self.username} {self.password}')       #Print user and pass
             
             except:
-                systemBoarder(sys='error', msg='Could not find login files')    
+                systemBoarder(sys='error', msg='Could not find login files')                #If login file could not be found
                 self.username = str(input(f"\nUsername: "))                                 #declare username
                 self.password = str(input(f"Password: "))                                   #declare password
         
-        else:
-            self.username = str(input(f"\nUsername: "))                                 #declare username
-            self.password = str(input(f"Password: "))          
+        else:       
+            self.username = str(input(f"\nUsername: "))                                     #ask for username
+            self.password = str(input(f"Password: "))                                       #Ask for password
             print()
         
-        try:    #USERNAME 
-            systemBoarder(sys="system", msg="Finding username element...")
-            wait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "username"))).send_keys(str(self.username))  
-            systemBoarder(sys="system", msg="Sending credentials...")
+        try:                                                                                                                        #USERNAME 
+            systemBoarder(sys="system", msg="Finding username element...")                                                          #Start username login sequence
+            wait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "username"))).send_keys(str(self.username))        #find username element (wait), and send keys (username)
+            systemBoarder(sys="system", msg="Sending credentials...")                                                               #print success
         except:
-            systemBoarder(sys="error",msg="Could not find username element")        #or send keys or bad args?
+            systemBoarder(sys="error",msg="Could not find username element")                                                        #print username failed (could not find)
         
-        try:    #PASSWORD
-            systemBoarder(sys="system", msg="Finding password element...")  
-            wait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "password"))).send_keys(str(self.password))                     #send creds
-            systemBoarder(sys="system",msg="Sending credentials...")
+        try:                                                                                                                        #PASSWORD
+            systemBoarder(sys="system", msg="Finding password element...")                                                          #Start password login sequence
+            wait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "password"))).send_keys(str(self.password))        #Find password element (wait) and send keys (password)
+            systemBoarder(sys="system",msg="Sending credentials...")                                                                #Print success
         except:
-            systemBoarder(sys="error", msg="Could not find password element")       #or send keys or bad creds
+            systemBoarder(sys="error", msg="Could not find password element")                                                       #print password failed (could not find)
         
-        try:    #LOG IN
-            systemBoarder(sys="system",msg="Finding login element")
-            wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="loginForm"]/div/div[3]/button/div'))).click()    #send creds
-            systemBoarder(sys="system", msg="Login sucessfull")
+        try:                                                                                                                                #LOG IN
+            systemBoarder(sys="system",msg="Finding login element")                                                                         #start click login sequence
+            wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="loginForm"]/div/div[3]/button/div'))).click()   #Find login button element (wait) and click
+            systemBoarder(sys="system", msg="Login sucessfull")                                                                             #Print success
         except:
-            systemBoarder(sys="ERROR", msg="Could not login")
+            systemBoarder(sys="ERROR", msg="Could not login")                                                                               #Print click failed (could not find or bad creds)
         
-        try:    #handling save login
-            systemBoarder(sys="system", msg='Scanning for element...')
-            wait(self.driver, 10).until(EC.url_to_be("https://www.instagram.com/accounts/onetap/?next=%2F"))
-            if self.driver.current_url == "https://www.instagram.com/accounts/onetap/?next=%2F":
-                if str(input("\nSave login for Instagram? (y/n): ")).upper() == "Y":
+        try:                                                                                                        #handling save login
+            systemBoarder(sys="system", msg='Scanning for element...')                                              #print waiting
+            wait(self.driver, 10).until(EC.url_to_be("https://www.instagram.com/accounts/onetap/?next=%2F"))        #wait for url to change (indicats instagram is asking to add 2 factor)
+            if self.driver.current_url == "https://www.instagram.com/accounts/onetap/?next=%2F":                    #if instagram is asking
+                if str(input("\nSave login for Instagram? (y/n): ")).upper() == "Y":                                #and if user says 'y' (yes) to save login
                     try:
-                        systemBoarder(sys="system", msg="Saving cookies...")
-                        wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/section/main/div/div/div/section/div/button'))).click()
-                        pk.dump(self.driver.get_cookies(), open("coockies.pkl", "wb"))
+                        systemBoarder(sys="system", msg="Saving cookies...")                                                                                                                                                    #print save cookies
+                        wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/section/main/div/div/div/section/div/button'))).click()        #find button for yes and click
+                        pk.dump(self.driver.get_cookies(), open("coockies.pkl", "wb"))                                                                                                                                          #save cookies
                     except:
-                        systemBoarder(sys="error", msg="Could not click")
-                else:
-                    wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/section/main/div/div/div/div/div'))).click()            
+                        systemBoarder(sys="error", msg="Could not click")                                                                                                                                                       #if failed print error
+                else:                                                                                                                                                                                                           #if user doesn't pick yes
+                    wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/section/main/div/div/div/div/div'))).click()                       #wait and click no
                 print()
         except:
-            systemBoarder(sys='error', msg="Could not perform save login action")
+            systemBoarder(sys='error', msg="Could not perform save login action")                                                   #if save login fails print
 
-        try:    #handling notifications
-            systemBoarder(sys="system", msg='Scanning for element...')
-            wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Not Now']")))
-            if str(input("\nEnable notifications? (y/n): ")).upper() == "Y":
-                systemBoarder(sys="system", msg='\nEnabling notifications...')
-                wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Turn On']"))).click()
-            else:
-                systemBoarder(sys="system", msg='Not enabling notifications...')
-                wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Not Now']"))).click()            
+        try:                                                                                                                        #handling notifications
+            systemBoarder(sys="system", msg='Scanning for element...')                                                              #print waiting
+            wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Not Now']")))                   #if notification button found
+            if str(input("\nEnable notifications? (y/n): ")).upper() == "Y":                                                        #if user picks to endable notifications
+                systemBoarder(sys="system", msg='\nEnabling notifications...')                                                      #print endabling notifs
+                wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Turn On']"))).click()       #find and click yes button
+            else:                                                                                                                   #if user picks not to
+                systemBoarder(sys="system", msg='Not enabling notifications...')                                                    #print confirmation
+                wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Not Now']"))).click()       #find and click no button
             print()
-            return True 
+            return True                                                                                                             #return success flag for login method
         except:
-            systemBoarder(sys='error', msg="Could not perform notifications action")
+            systemBoarder(sys='error', msg="Could not perform notifications action")                                                #if failed print 
     
 ### USER ACTOINS ###
 
     def get_your_info(self):
         try:
-            systemBoarder(sys='SYSTEM', msg='Loading followers...')
-            self.driver.get(f"https://www.instagram.com/{self.username}/")
+            systemBoarder(sys='SYSTEM', msg='Loading followers...')                 #print 
+            self.driver.get(f"https://www.instagram.com/{self.username}/")          #try loading url of username
         except:
-            print(systemBoarder(sys='ERROR', msg='Could not load profile'))
+            print(systemBoarder(sys='ERROR', msg='Could not load profile'))         #if failed print
 
-        systemBoarder(sys='SYSTEM', msg='Collecting data...')
+        systemBoarder(sys='SYSTEM', msg='Collecting data...')                       #print start sequence
 
         try:
             systemBoarder(sys='SYSTEM', msg='Collecting post count...')
@@ -203,41 +203,41 @@ class bot():
 
     def quit(self):
             try:
-                systemBoarder(sys='system', msg='Saving cookies...')
+                systemBoarder(sys='system', msg='Saving cookies...')        #print
                 cookies = self.driver.get_cookies()                         #save cookies
             except:
-                systemBoarder(sys='error', msg='Could not save cookies')
+                systemBoarder(sys='error', msg='Could not save cookies')    #print
 
             try:
-                systemBoarder(sys='SYSTEM',msg='Quiting selenium...')
+                systemBoarder(sys='SYSTEM',msg='Quiting selenium...')       #print
                 self.driver.quit()                                          #quit selenium     
-            except:
-                systemBoarder(sys='error', msg='Could not quit selenium')                
+            except: 
+                systemBoarder(sys='error', msg='Could not quit selenium')   #Print error
 
             try:
                 systemBoarder(sys='system', msg='Stuffing cookies...')
                 with open('..\\reasources\\cookies.pkl', 'wb') as file:                     #open cookie file
-                    pk.dump(cookies, file)                                  #dump cookies
+                    pk.dump(cookies, file)                                                  #dump cookies
                 systemBoarder(sys='system', msg='Cookies stuffed...')
             except:
                 systemBoarder(sys='error', msg='Could not save cookies')
 
-            if str(input(f'Save login locally? (y/n): ')).upper() == 'Y':
+            if str(input(f'Save login locally? (y/n): ')).upper() == 'Y':                   #Ask save login
                 try:
-                    systemBoarder(sys='system', msg='Looking for savedLogins.txt')
-                    with open('..\\reasources\\savedLogins.txt', 'w' ) as file:
-                        existingContent = file.read()
+                    systemBoarder(sys='system', msg='Looking for savedLogins.txt')          #Begin save sequence
+                    with open('..\\reasources\\savedLogins.txt', 'w' ) as file:             #Collect already saved logins (Better way to do this?)
+                        existingContent = file.read()                                       #Save saves
                     
-                    if f'{self.username} {self.password}' not in existingContent:
+                    if f'{self.username} {self.password}' not in existingContent:           #If current user logged in and not saved...
                         systemBoarder(sys='system', msg='Saving login...')
-                        with open('..\\reasources\\savedLogins.txt', 'a') as file:
+                        with open('..\\reasources\\savedLogins.txt', 'a') as file:          #Save login
                             file.write(self.username, self.password)
                         systemBoarder(sys='system', msg='Saved login')
                 except:
-                    systemBoarder(sys='error', msg='savedLogins.txt not found')
+                    systemBoarder(sys='error', msg='savedLogins.txt not found')             #Print Error could not find login file
                     systemBoarder(sys='system', msg='Creating savedLogins.txt...')
 
-                    with open('..\\reasources\\savedLogins.txt', 'w') as file:
+                    with open('..\\reasources\\savedLogins.txt', 'w') as file:              #Create new login file
                         file.write(f'{self.username} {self.password}')
                     systemBoarder(sys='system', msg='Saved login')        
             
