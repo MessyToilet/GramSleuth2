@@ -2,7 +2,9 @@ from frontend import printLogo, options, systemBoarder
 from backend import bot
 import sys
 
-print(printLogo('RED'))
+
+printLogo('RED')
+
 if len(sys.argv) >= 2:
     if sys.argv[1].upper() ==  "D":
         print(systemBoarder(sys='system', msg='Enter Dev Mode...'))

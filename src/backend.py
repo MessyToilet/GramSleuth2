@@ -55,8 +55,8 @@ class bot():
 
                 choice = int(input(f'Pick your login: '))                                       #Ask user to pick (HANDLE CONDITION LOGIN NO LONGER WORKS AND FAILED LOGIN IN GENERAL)
                 
-                self.username = login[choice].split()[0]                                        #Choose username
-                self.password = login[choice].split()[1]                                        #Choose password
+                self.username = logins[choice].split()[0]                                        #Choose username
+                self.password = logins[choice].split()[1]                                        #Choose password
                 systemBoarder(sys='system', msg=f'Using {self.username} {self.password}')       #Print user and pass
             
             except:
@@ -67,7 +67,7 @@ class bot():
         else:       
             self.username = str(input(f"\nUsername: "))                                     #ask for username
             self.password = str(input(f"Password: "))                                       #Ask for password
-            print()
+            
         
         try:                                                                                                                        #USERNAME 
             systemBoarder(sys="system", msg="Finding username element...")                                                          #Start username login sequence
@@ -125,30 +125,30 @@ class bot():
 
     def get_your_info(self):
         try:
-            systemBoarder(sys='SYSTEM', msg='Loading followers...')                 #print 
-            self.driver.get(f"https://www.instagram.com/{self.username}/")          #try loading url of username
+            systemBoarder(sys='SYSTEM', msg='Loading followers...')                  #print 
+            self.driver.get(f"https://www.instagram.com/{self.username}/")                  #try loading url of username
         except:
-            print(systemBoarder(sys='ERROR', msg='Could not load profile'))         #if failed print
+            systemBoarder(sys='ERROR', msg='Could not load profile')                 #if failed print
 
-        systemBoarder(sys='SYSTEM', msg='Collecting data...')                       #print start sequence
+        systemBoarder(sys='SYSTEM', msg='Collecting data...')                        #print start sequence
 
         try:
             systemBoarder(sys='SYSTEM', msg='Collecting post count...')
-            postCount = wait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#mount_0_0_nI > div > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div > div.x78zum5.xdt5ytf.x1t2pt76.x1n2onr6.x1ja2u2z.x10cihs4 > div.x9f619.xvbhtw8.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.x1uhb9sk.x1plvlek.xryxfnj.x1c4vz4f.x2lah0s.xdt5ytf.xqjyukv.x1qjc9v5.x1oa3qoh.x1qughib > div.x1gryazu.xh8yej3.x10o80wk.x14k21rp.x17snn68.x6osk4m.x1porb0y > div:nth-child(2) > section > main > div > ul > li:nth-child(1) > span > span"))).text
+            postCount = wait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#mount_0_0_Bt > div > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div > div.x78zum5.xdt5ytf.x1t2pt76.x1n2onr6.x1ja2u2z.x10cihs4 > div.x9f619.xvbhtw8.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.x1uhb9sk.x1plvlek.xryxfnj.x1c4vz4f.x2lah0s.xdt5ytf.xqjyukv.x1qjc9v5.x1oa3qoh.x1qughib > div.x1gryazu.xh8yej3.x10o80wk.x14k21rp.x17snn68.x6osk4m.x1porb0y > div:nth-child(2) > section > main > div > ul > li:nth-child(1) > span > span > span"))).text()
             print(f'Num Posts: {postCount}')
         except:
             systemBoarder(sys="error", msg="Could not find post count")
 
         try:
             systemBoarder(sys='SYSTEM', msg='Collecting follower count...')
-            followerCount = wait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#mount_0_0_nI > div > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div > div.x78zum5.xdt5ytf.x1t2pt76.x1n2onr6.x1ja2u2z.x10cihs4 > div.x9f619.xvbhtw8.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.x1uhb9sk.x1plvlek.xryxfnj.x1c4vz4f.x2lah0s.xdt5ytf.xqjyukv.x1qjc9v5.x1oa3qoh.x1qughib > div.x1gryazu.xh8yej3.x10o80wk.x14k21rp.x17snn68.x6osk4m.x1porb0y > div:nth-child(2) > section > main > div > ul > li:nth-child(2) > a > span > span"))).text
+            followerCount = wait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#mount_0_0_nI > div > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div > div.x78zum5.xdt5ytf.x1t2pt76.x1n2onr6.x1ja2u2z.x10cihs4 > div.x9f619.xvbhtw8.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.x1uhb9sk.x1plvlek.xryxfnj.x1c4vz4f.x2lah0s.xdt5ytf.xqjyukv.x1qjc9v5.x1oa3qoh.x1qughib > div.x1gryazu.xh8yej3.x10o80wk.x14k21rp.x17snn68.x6osk4m.x1porb0y > div:nth-child(2) > section > main > div > ul > li:nth-child(2) > a > span > span"))).text()
             print(f'Followers: {followerCount}')
         except:
             systemBoarder(sys="error", msg="Could not find follower count")
 
         try:    
             systemBoarder(sys='SYSTEM', msg='Collecting following count...')
-            followingCount = wait(self.driver, 10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "#mount_0_0_nI > div > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div > div.x78zum5.xdt5ytf.x1t2pt76.x1n2onr6.x1ja2u2z.x10cihs4 > div.x9f619.xvbhtw8.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.x1uhb9sk.x1plvlek.xryxfnj.x1c4vz4f.x2lah0s.xdt5ytf.xqjyukv.x1qjc9v5.x1oa3qoh.x1qughib > div.x1gryazu.xh8yej3.x10o80wk.x14k21rp.x17snn68.x6osk4m.x1porb0y > div:nth-child(2) > section > main > div > ul > li:nth-child(3) > a > span > span"))).text
+            followingCount = wait(self.driver, 10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "#mount_0_0_nI > div > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div > div.x78zum5.xdt5ytf.x1t2pt76.x1n2onr6.x1ja2u2z.x10cihs4 > div.x9f619.xvbhtw8.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.x1uhb9sk.x1plvlek.xryxfnj.x1c4vz4f.x2lah0s.xdt5ytf.xqjyukv.x1qjc9v5.x1oa3qoh.x1qughib > div.x1gryazu.xh8yej3.x10o80wk.x14k21rp.x17snn68.x6osk4m.x1porb0y > div:nth-child(2) > section > main > div > ul > li:nth-child(3) > a > span > span"))).text()
             print(f'Following: {followingCount}')
         except:
             systemBoarder(sys='error', msg='Could not find following count')

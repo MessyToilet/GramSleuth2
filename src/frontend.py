@@ -2,7 +2,7 @@ import shutil
 from colorama import Fore, Style
 import os
 
-def printLogo(color:str = 'white') -> None:
+def printLogo(color:str = 'white'):
     supportedColors = ["BLACK", 
                        "RED", 
                        "GREEN", 
@@ -23,7 +23,7 @@ def printLogo(color:str = 'white') -> None:
 
     if color.upper() not in supportedColors:
         print(f"ERROR: unsupported color given, supported colors:\n{supportedColors}")
-        return
+        
 
     text_color = getattr(Fore, color.upper())
     logo = f"""         
@@ -41,16 +41,17 @@ def printLogo(color:str = 'white') -> None:
     centered_lines = [(line.center(terminal_size.columns, ' ') if len(line.strip()) > 0 else ' ' * terminal_size.columns) for line in lines]
     os.system("cls")
     print('\n'.join(centered_lines))
+    
 
 def numberBoarder(num: str) -> str:
     return f'{Fore.YELLOW}[{Fore.GREEN}{num}{Fore.YELLOW}]{Fore.RESET}'
 
-def systemBoarder(sys:str, msg:str) -> str: #MAY CAUSE PROBLEMS!!
+def systemBoarder(sys:str, msg:str) -> str: #MAY CAUSE PROBLEMS!! (COULD CAUSE PRINT NONE)
     if sys.upper() == 'ERROR':
-        return(f'\n{Fore.YELLOW}[{Fore.RED}{sys.upper()}{Fore.YELLOW}]{Fore.RESET} {msg}')
+        print(f'{Fore.YELLOW}[{Fore.RED}{sys.upper()}{Fore.YELLOW}]{Fore.RESET} {msg}')
     
     elif sys.upper() == 'SYSTEM':
-        return(f'\n{Fore.YELLOW}[{Fore.BLUE}{sys.upper()}{Fore.YELLOW}]{Fore.RESET} {msg}')
+        print(f'{Fore.YELLOW}[{Fore.BLUE}{sys.upper()}{Fore.YELLOW}]{Fore.RESET} {msg}')
    
     elif sys.upper() == "USER":
         return(f'\n{Fore.YELLOW}[{Fore.CYAN}{sys.upper()}{Fore.YELLOW}]{Fore.RESET} {msg}')
