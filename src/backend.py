@@ -1,4 +1,5 @@
 from selenium import webdriver
+import sys
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
@@ -40,10 +41,14 @@ class bot:
             systemBoarder(sys="ERROR", msg="Could not load cookies")  # edge case
 
     def login(self) -> bool:
-        self.username = str(input(f"\nUsername: "))  # declare username
-        self.password = str(input(f"Password: "))  # declare password
-        print()
+        if len(sys.argv) != 3:
+            print("Usage: python your_script.py <username> <password>")
+            sys.exit(1)
 
+        self.username = sys.argv[1]
+        self.password = sys.argv[2]
+
+        print()
         try:  # USERNAME
             systemBoarder(sys="system", msg="Finding username element...")
             wait(self.driver, 10).until(

@@ -3,7 +3,7 @@ name: Python Update and Install Requirements
 on:
   push:
     branches:
-      - main  # Replace with the branch you want to trigger on
+      - main # Replace with the branch you want to trigger on
 
 jobs:
   update_and_install:
@@ -16,7 +16,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.11'  # Choose the Python version you want
+          python-version: "3.11" # Choose the Python version you want
 
       - name: Install pip
         run: |
@@ -27,5 +27,18 @@ jobs:
       - name: Install project dependencies
         run: |
           pip install -r requirements.txt
+
+      - name: Fetch GitHub secrets
+        run: |
+          export ARG1_SECRET=${{ secrets.ARGUMENT1_SECRET }}
+
+          export ARG2_SECRET=${{ secrets.ARGUMENT2_SECRET }}
+        # This step fetches the secrets from the repository's settings
+
+      - name: Run Python script
+        working-directory: src # Change to the 'src' directory
+        run: |
+          python main.py $ARG1_SECRET $ARG2_SECRET
+          echo "10" | python -  # Input "10" to quit
 
 ##CHATGPT CODE
