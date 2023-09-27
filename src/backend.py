@@ -291,7 +291,7 @@ def getTitle(html: str) -> str:
     span_element = soup.find("span", {"title": True})
     title = span_element["title"]
     return title
-=======
+
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
