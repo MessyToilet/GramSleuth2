@@ -41,7 +41,9 @@ class bot():
 
         #START WHILE LOOP FOR FAILED LOGIN
         while True:                                                                                 #until login successful
-            if str(input(f'Use a saved login? (y/n): ')).upper() == 'Y':                            #Ask to use saved login
+            userInput = str(input(f'\nUse a saved login? (y/n/q): '))
+            userInput = userInput.upper()
+            if userInput == 'Y':                            #Ask to use saved login
                 print()
                 try:
                     systemBoarder(sys='system', msg='Checking for saved logins...')                 #print
@@ -66,16 +68,26 @@ class bot():
                 except:
                     systemBoarder(sys='error', msg='Could not find login files')                #If login file could not be found
                     self.username = str(input(f"\nUsername: "))                                 #declare username
-                    self.password = str(input(f"Password: "))                                   #declare password
+                    self.password = str(input(f"Password: "))
+                    print()                                   #declare password
             
+            elif userInput == "Q":
+                systemBoarder(sys='system', msg='Quiting')
+                quit()
+
             else:       
                 self.username = str(input(f"\nUsername: "))                                     #ask for username
                 self.password = str(input(f"Password: "))                                       #Ask for password
+                print()
 
             try:                                                                                                                        #USERNAME 
                 systemBoarder(sys="system", msg="Finding username element...")                                                          #Start username login sequence
-                usernameBox = wait(self.driver, 5).until(EC.presence_of_element_located((By.NAME, "username")))                         #find username element (wait)
-                self.driver.execute_script("arguments[0].value = '';", passwordBox)                                                     #clear text box
+                usernameBox = wait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "username")))                         #find username element (wait)
+                systemBoarder(sys='system', msg='Clicking into text box...')
+                usernameBox.click()
+                systemBoarder(sys='system', msg='Clearing text box...')
+                self.driver.execute_script("arguments[0].value = '';", usernameBox)                                                     #clear text box
+                systemBoarder(sys='system', msg='Sending keys...')
                 usernameBox.send_keys(str(self.username))                                                                               #send keys (username)
                 systemBoarder(sys="system", msg="Sending credentials...")                                                               #print success
             except:
@@ -83,8 +95,12 @@ class bot():
             
             try:                                                                                                                        #PASSWORD
                 systemBoarder(sys="system", msg="Finding password element...")                                                          #Start password login sequence
-                passwordBox = wait(self.driver, 5).until(EC.presence_of_element_located((By.NAME, "password")))                         #Find password element (wait)
+                passwordBox = wait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, "password")))                         #Find password element (wait)
+                systemBoarder(sys='system', msg='Clicking into text box...')
+                passwordBox.click()
+                systemBoarder(sys='system', msg='Clearing text box...')
                 self.driver.execute_script("arguments[0].value = '';", passwordBox)                                                     #clear text box
+                systemBoarder(sys='system', msg='Sending keys...')
                 passwordBox.send_keys(str(self.password))                                                                               #send keys (password)
                 systemBoarder(sys="system",msg="Sending credentials...")                                                                #Print success
             except:                 
@@ -92,7 +108,7 @@ class bot():
             
             try:                                                                                                                                #LOG IN
                 systemBoarder(sys="system",msg="Finding login element")                                                                         #start click login sequence
-                wait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, '//*[@id="loginForm"]/div/div[3]/button/div'))).click()    #Find login button element (wait) and click
+                wait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="loginForm"]/div/div[3]/button/div'))).click()    #Find login button element (wait) and click
                 systemBoarder(sys="system", msg="Sending keys...")                                                                              #Print success
             except:
                 systemBoarder(sys="ERROR", msg="Could not find login or creds do not suffice")                                                                               #Print click failed (could not find or bad creds)
