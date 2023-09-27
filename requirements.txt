@@ -53,3 +53,4 @@ urllib3==1.26.15
 wsproto==1.2.0
 zope.event==4.6
 zope.interface==5.5.2
+webdriver_manager==4.0.1
