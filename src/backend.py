@@ -43,7 +43,7 @@ class bot():
         while True:                                                                                 #until login successful
             userInput = str(input(f'\nUse a saved login? (y/n/q): '))
             userInput = userInput.upper()
-            if userInput == 'Y':                            #Ask to use saved login
+            if userInput == 'Y':                                                                    #Ask to use saved login
                 print()
                 try:
                     systemBoarder(sys='system', msg='Checking for saved logins...')                 #print
@@ -60,7 +60,8 @@ class bot():
                     print()
 
                     choice = int(input(f'Pick your login: '))                                       #Ask user to pick (HANDLE CONDITION LOGIN NO LONGER WORKS AND FAILED LOGIN IN GENERAL)
-                    
+                    print()
+
                     self.username = logins[choice].split()[0]                                        #Choose username
                     self.password = logins[choice].split()[1]                                        #Choose password
                     systemBoarder(sys='system', msg=f'Using {self.username} {self.password}')       #Print user and pass
@@ -114,7 +115,7 @@ class bot():
                 systemBoarder(sys="ERROR", msg="Could not find login or creds do not suffice")                                                                               #Print click failed (could not find or bad creds)
 
             try:#Find icon that only appears when logged in to confirm login
-                wait(self.driver, 5).until(EC.presence_of_element_located((By.CSS_SELECTOR, "body > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > span:nth-child(1) > div:nth-child(1) > a:nth-child(1) > div:nth-child(1)")))
+                wait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "body > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > span:nth-child(1) > div:nth-child(1) > a:nth-child(1) > div:nth-child(1)")))
                 systemBoarder(sys='system', msg='LOGIN SEQUENCE SUCCESSFUL!')       #print login successful
                 break                                                               #break from loop
             except:
@@ -156,8 +157,7 @@ class bot():
 ### USER ACTOINS ###
 
     def get_your_info(self):
-        
-
+    
         try:
             systemBoarder(sys='SYSTEM', msg='Loading followers...')                  #print 
             self.driver.get(f"https://www.instagram.com/{self.username}/")           #try loading url of username
@@ -171,7 +171,7 @@ class bot():
         try:
             systemBoarder(sys='SYSTEM', msg='Collecting post count...')
             postCount = self.driver.find_element(By.CSS_SELECTOR, "body > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > section:nth-child(1) > main:nth-child(1) > div:nth-child(1) > header:nth-child(1) > section:nth-child(2) > ul:nth-child(3) > li:nth-child(1) > span:nth-child(1) > span:nth-child(1)").text
-            #print(f'Num Posts: {postCount}')
+            #print(f'Num Posts: {postCount}') #error here
         except:
             systemBoarder(sys="error", msg="Could not find post count")
 
@@ -244,8 +244,91 @@ class bot():
 ### TARGET ACTIONS ###  
 
     def get_target_info(self, target):
-        print("Loading target...")
-        self.driver.get(f"https://www.instagram.com/{target}/")        
+        systemBoarder(sys='system', msg='Loading target...')
+        try:
+            systemBoarder(sys='SYSTEM', msg='Loading followers...')                  #print 
+            self.driver.get(f"https://www.instagram.com/{target}/")           #try loading url of username
+            time.sleep(5)
+        except:
+            systemBoarder(sys='ERROR', msg='Could not load profile')                 #if failed print
+
+        systemBoarder(sys='SYSTEM', msg='Collecting data...')                        #print start sequence
+
+        
+        try:
+            systemBoarder(sys='SYSTEM', msg='Collecting post count...')
+            postCount = self.driver.find_element(By.CSS_SELECTOR, "body > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > section:nth-child(1) > main:nth-child(1) > div:nth-child(1) > header:nth-child(1) > section:nth-child(2) > ul:nth-child(3) > li:nth-child(1) > span:nth-child(1) > span:nth-child(1)").text
+            #print(f'Num Posts: {postCount}') #error here
+        except:
+            systemBoarder(sys="error", msg="Could not find post count")
+
+        try:
+            systemBoarder(sys='SYSTEM', msg='Collecting follower count...')
+            followerCount = self.driver.find_element(By.XPATH, "/html[1]/body[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/section[1]/main[1]/div[1]/header[1]/section[1]/ul[1]/li[2]/a[1]/span[1]/span[1]").text
+            #followerCount = wait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#mount_0_0_0l > div > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div > div.x78zum5.xdt5ytf.x1t2pt76.x1n2onr6.x1ja2u2z.x10cihs4 > div.x9f619.xvbhtw8.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.x1uhb9sk.x1plvlek.xryxfnj.x1c4vz4f.x2lah0s.x1q0g3np.xqjyukv.x1qjc9v5.x1oa3qoh.x1qughib > div.x1gryazu.xh8yej3.x10o80wk.x14k21rp.x17snn68.x6osk4m.x1porb0y > div:nth-child(2) > section > main > div > header > section > ul > li:nth-child(2) > a > span"))).title
+            #print(f'Followers: {followerCount}')
+        except:
+            systemBoarder(sys="error", msg="Could not find follower count")
+
+        try:    
+            systemBoarder(sys='SYSTEM', msg='Collecting following count...')
+            followingCount = self.driver.find_element(By.CSS_SELECTOR, "li:nth-child(3) a:nth-child(1) span:nth-child(1) span:nth-child(1)").text
+            #followingCount = wait(self.driver, 10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "#mount_0_0_0l > div > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div > div.x78zum5.xdt5ytf.x1t2pt76.x1n2onr6.x1ja2u2z.x10cihs4 > div.x9f619.xvbhtw8.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.x1uhb9sk.x1plvlek.xryxfnj.x1c4vz4f.x2lah0s.x1q0g3np.xqjyukv.x1qjc9v5.x1oa3qoh.x1qughib > div.x1gryazu.xh8yej3.x10o80wk.x14k21rp.x17snn68.x6osk4m.x1porb0y > div:nth-child(2) > section > main > div > header > section > ul > li:nth-child(3) > a > span > span"))).text
+            #print(f'Following: {followingCount}')
+        except:
+            systemBoarder(sys='error', msg='Could not find following count')
+
+        try:
+            systemBoarder(sys='system', msg='Collecting bio...')            
+            bio = self.driver.find_element(By.CSS_SELECTOR, "._aacl._aaco._aacu._aacx._aad6._aade").text     #Get bio, must parse (contains new line chars)
+            bio = bio.split('\n')
+        except:
+            systemBoarder(sys='error', msg='Could not collet bio')
+
+        try:
+            systemBoarder(sys='system', msg='Collecting Name...')
+            name = self.driver.find_element(By.CSS_SELECTOR, "").text
+        except:
+            systemBoarder(sys='error', msg='Could not collect name')
+        
+        try:
+            systemBoarder(sys='system', msg='Getting profile picture...')
+            imageUrl = self.driver.find_element(By.XPATH, '//img').get_attribute('src')
+            #//img        
+        except:
+            systemBoarder(sys='error', msg='Could not get image url')
+
+
+        try:
+            systemBoarder(sys='system',msg='Getting profile link...')
+            profileUrl = self.driver.find_element(By.XPATH, "/html/body/div[2]/div/div/div[2]/div/div/div/div[1]/div[1]/div[2]/div[2]/section/main/div/header/section/div[3]/div[3]/a/span/span").get_attribute('src')
+        except:
+            systemBoarder(sys="error", msg="Could not get profile link")
+
+
+        #OUT PUT
+
+        print(f'\n\n\t Username     Posts    Flwrs    Flwng')
+        print(f'\n\t{target}\t{postCount}\t{followerCount}\t{followingCount}')
+        
+        try:                            #if user does not have username
+            print(f'Name\t{name}')
+        except:
+            print(f'Name')
+
+        try:
+            print(f'Bio', end='')
+            for line in bio:
+                print(f'\t{line}')
+        except:
+            pass 
+
+        print(f'\nProfile link')
+        print(f'\n{profileUrl}')
+
+        print(f'\nProfile pic url')
+        print(f'\n{imageUrl}')
+
         return
     
     def get_target_followers(self, target):
@@ -283,7 +366,9 @@ class bot():
             except:
                 systemBoarder(sys='error', msg='Could not save cookies')
 
+            print()
             if str(input(f'Save login locally? (y/n): ')).upper() == 'Y':                   #Ask save login
+                print()
                 try:
                     systemBoarder(sys='system', msg='Looking for savedLogins.txt')          #Begin save sequence
                     with open('..\\reasources\\savedLogins.txt', 'w' ) as file:             #Collect already saved logins (Better way to do this?)
@@ -301,7 +386,7 @@ class bot():
                     with open('..\\reasources\\savedLogins.txt', 'w') as file:              #Create new login file
                         file.write(f'{self.username} {self.password}')
                     systemBoarder(sys='system', msg='Saved login')        
-            
+            print()
             systemBoarder(sys='SYSTEM',msg='Quiting...')
             sys.exit()
 

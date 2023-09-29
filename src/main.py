@@ -9,6 +9,7 @@ if len(sys.argv) >= 2:
     if sys.argv[1].upper() ==  "D":
         print(systemBoarder(sys='system', msg='Enter Dev Mode...'))
         while (option := options()):
+            print()
             print(systemBoarder(sys='SYSTEM', msg='SYSTEM'))
             print(systemBoarder(sys='ERROR', msg='ERROR'))
             print(systemBoarder(sys='User', msg='USER'))
@@ -44,6 +45,7 @@ myBot.login()
 printLogo("red")
 
 while (option := options()):
+    print()
     if int(option) >= 1 and int(option) <= 3:
         if option == '1':
             myBot.get_your_info()
@@ -53,6 +55,7 @@ while (option := options()):
             myBot.get_your_following()
     elif int(option) >= 4 and int(option) < 7:
         target = str(input(f'Target @: '))
+        print()
         if option == '4':
             myBot.get_target_info(target)
         elif option == '5':
