@@ -12,7 +12,37 @@
 > \- David Brin
 
 ---
-## FAQ
+
+# Guides
+
+### 1. Program set up
+### 2. Chrome set up
+### 3. Instagram set up
+### 4. Program usage
+### 5. Parsing data
+### 6. Contribution
+
+## Program set up
+1. Install git repo
+    cd into repo
+    Insure all program files exist (backend.py, frontend.py, main.py)
+2. Insure all dependencies are installed (requrimetents.txt)
+    Can be installed by pip install requirements.txt
+
+## Chrome set up
+1.  no longer needed 
+
+## Instagram set up
+
+
+## Use
+
+## Parsing data
+
+## Contribution
+
+
+# FAQ
 
 1. Chrome Webdriver (Should not be needed)
     ---
@@ -26,7 +56,7 @@
     - A: When in chrome* -> 3 dots -> settings -> about chrome
 
 
-## :rotating_light: Warning
+# :rotating_light: Warning
 
 ##### Using any kind of instagram bot or automation software goes against Instagrams TOS, so the instagram account you use is at risk of being restricted or banned, and ip address blocked. WE DO NOT CONDON ANY USE OF GRAMSLEUTH OR ANY INSTAGRAM AUTOMATION SOFTWARE. This program is a proof of concept and is ment for research only, we do not take accounablity if this tool is used without specific permision from instagram.
 

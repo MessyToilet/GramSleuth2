@@ -18,6 +18,7 @@ import sys
 class bot():
     def __init__(self) -> None: 
         try:
+            systemBoarder(sys='system', msg='Looking for path...')
             self.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))                    #init driver
             systemBoarder(sys='SYSTEM', msg='Found Path!')
         except:
@@ -159,7 +160,7 @@ class bot():
     def get_your_info(self):
     
         try:
-            systemBoarder(sys='SYSTEM', msg='Loading followers...')                  #print 
+            systemBoarder(sys='SYSTEM', msg='Loading profile...')                  #print 
             self.driver.get(f"https://www.instagram.com/{self.username}/")           #try loading url of username
             time.sleep(5)
         except:
@@ -210,14 +211,18 @@ class bot():
         except:
             systemBoarder(sys='error', msg='Could not get image url')
 
-        print(f'\n\n\t Username     Posts    Flwrs    Flwng')
-        print(f'\n\t{self.username}\t{postCount}\t{followerCount}\t{followingCount}')
-        print(f'Name\t{name}')
-        print(f'Bio', end='')
-        for line in bio:
-            print(f'\t{line}')
-        print(f'\nProfile pic url')
-        print(f'\n{imageUrl}')
+
+        try:
+            print(f'\n\n\t Username     Posts    Flwrs    Flwng')
+            print(f'\n\t{self.username}\t{postCount}\t{followerCount}\t{followingCount}')
+            print(f'Name\t{name}')
+            print(f'Bio', end='')
+            for line in bio:
+                print(f'\t{line}')
+            print(f'\nProfile pic url')
+            print(f'\n{imageUrl}')
+        except:
+            pass
 
     def get_your_followers(self):
         try:
@@ -229,7 +234,7 @@ class bot():
             
             systemBoarder(sys='SYSTEM', msg='Scrolling...')
             numScrolls = 20
-            for _ in range(numScrolls):
+            for _ in range(numScrolls):     #Not in frame!!!
                 self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
                 
             
@@ -244,14 +249,15 @@ class bot():
 ### TARGET ACTIONS ###  
 
     def get_target_info(self, target):
-        systemBoarder(sys='system', msg='Loading target...')
+        systemBoarder(sys='system', msg='Loading target...')        #handle user not found
         try:
             systemBoarder(sys='SYSTEM', msg='Loading followers...')                  #print 
             self.driver.get(f"https://www.instagram.com/{target}/")           #try loading url of username
             time.sleep(5)
         except:
             systemBoarder(sys='ERROR', msg='Could not load profile')                 #if failed print
-
+          
+        
         systemBoarder(sys='SYSTEM', msg='Collecting data...')                        #print start sequence
 
         
@@ -307,14 +313,16 @@ class bot():
 
 
         #OUT PUT
-
-        print(f'\n\n\t Username     Posts    Flwrs    Flwng')
-        print(f'\n\t{target}\t{postCount}\t{followerCount}\t{followingCount}')
+        try:
+            print(f'\n\n\t Username     Posts    Flwrs    Flwng')
+            print(f'\n\t{target}\t{postCount}\t{followerCount}\t{followingCount}')
+        except:
+            print(f'null') 
         
         try:                            #if user does not have username
             print(f'Name\t{name}')
         except:
-            print(f'Name')
+            print(f'Name\tnull')
 
         try:
             print(f'Bio', end='')
@@ -323,11 +331,17 @@ class bot():
         except:
             pass 
 
-        print(f'\nProfile link')
-        print(f'\n{profileUrl}')
+        try:
+            print(f'\nProfile link')
+            print(f'\n{profileUrl}')
+        except:
+            print(f'null')
 
-        print(f'\nProfile pic url')
-        print(f'\n{imageUrl}')
+        try:
+            print(f'\nProfile pic url')
+            print(f'\n{imageUrl}')
+        except:
+            print(f'null')
 
         return
     
@@ -366,19 +380,36 @@ class bot():
             except:
                 systemBoarder(sys='error', msg='Could not save cookies')
 
-            print()
+
+            print() #Begin save login sequence
             if str(input(f'Save login locally? (y/n): ')).upper() == 'Y':                   #Ask save login
                 print()
                 try:
-                    systemBoarder(sys='system', msg='Looking for savedLogins.txt')          #Begin save sequence
-                    with open('..\\reasources\\savedLogins.txt', 'w' ) as file:             #Collect already saved logins (Better way to do this?)
-                        existingContent = file.read()                                       #Save saves
+                    systemBoarder(sys='system', msg='Looking for savedLogins.txt...')          #Begin save sequence
+                    logins = []
+                    with open('..\\reasources\\savedLogins.txt', 'r' ) as file:             #Collect already saved logins (Better way to do this?)
+                        for line in file:
+                            systemBoarder(sys='system', msg='Found savedLogins.txt!')
+                
+                            logins.append(line.strip("\n"))                                       #Save saves                                              
                     
-                    if f'{self.username} {self.password}' not in existingContent:           #If current user logged in and not saved...
-                        systemBoarder(sys='system', msg='Saving login...')
-                        with open('..\\reasources\\savedLogins.txt', 'a') as file:          #Save login
-                            file.write(self.username, self.password)
-                        systemBoarder(sys='system', msg='Saved login')
+                    systemBoarder(sys='system', msg='creating concatonating login...')
+                    full = self.username + " " + self.password
+                    
+                    systemBoarder(sys='system', msg='Checking if login exists...')
+                    loginExists = False
+                    for login in logins:
+                        if login == full:
+                            loginExists = True
+                            break 
+
+                    if loginExists == False:
+                        systemBoarder(sys='system', msg='opening savedLogins.txt...')
+                        with open('..\\reasources\\savedLogins.txt', 'a') as file:
+                            systemBoarder(sys='system', msg='adding to savedLogins.txt...')
+                            file.write('\n')
+                            file.write(f'{self.username} {self.password}')
+                
                 except:
                     systemBoarder(sys='error', msg='savedLogins.txt not found')             #Print Error could not find login file
                     systemBoarder(sys='system', msg='Creating savedLogins.txt...')
